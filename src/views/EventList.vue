@@ -1,67 +1,39 @@
 <template>
   <div class="events">
-    <EventCard 
-      v-for="event in events" 
-      :key="event.id" 
-      :event="event"/>
+    <EventCard v-for="event in events" :key="event.id" :event="event" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import EventCard from "@/components/EventCard.vue";
+import EventCard from '@/components/EventCard.vue'
+import EventService from '@/services/EventService.js'
 
 export default {
-  name: "EventList",
+  name: 'EventList',
   components: {
-    EventCard,
+    EventCard
   },
   data() {
     return {
-      events: [
-        {
-          id: 3456,
-          category: 'animal',
-          title: 'Cat adoption',
-          description: 'Find your ...',
-          location: 'Town',
-          date: 'Jan 21, 2021',
-          time: '12:00',
-          petsAlllowed: true,
-          organizer: 'John Doe'
-        },
-        {
-          id: 3456,
-          category: 'animal',
-          title: 'Cat adoption',
-          description: 'Find your ...',
-          location: 'Town',
-          date: 'Jan 21, 2021',
-          time: '12:00',
-          petsAlllowed: true,
-          organizer: 'John Doe'
-        },
-        {
-          id: 3456,
-          category: 'animal',
-          title: 'Cat adoption',
-          description: 'Find your ...',
-          location: 'Town',
-          date: 'Jan 21, 2021',
-          time: '12:00',
-          petsAlllowed: true,
-          organizer: 'John Doe'
-        },
-      ],
+      events: null
     }
+  },
+  created() {
+    EventService.getEvents()
+      .then(response => {
+        this.events = response.data
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
-};
+}
 </script>
 
 <style scoped>
-  .events {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.events {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 </style>
